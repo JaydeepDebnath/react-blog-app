@@ -10,6 +10,7 @@ import Login from './Login.jsx'
 import PostCard from './PostCard.jsx'
 import Select from './Select.jsx'
 import SignUp from "./SignUp.jsx"
+import RTE from './RTE.jsx'
 export {
     Header,
     Footer,
@@ -22,5 +23,6 @@ export {
     Login,
     PostCard,
     Select,
-    SignUp
+    SignUp,
+    RTE
 }
