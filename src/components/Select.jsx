@@ -12,6 +12,7 @@ function Select({
         {label && <label htmlFor={id} class></label>}
         <select 
         {...props}
+        id={id}
         ref={ref}
         className={`px-3 py-2 rounded-lg bg-white
              text-black outline-none

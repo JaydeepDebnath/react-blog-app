@@ -1,7 +1,7 @@
 import React,{useCallback} from 'react'
 import { useForm } from 'react-hook-form'
 import {Button,Input,Select,RTE} from '../index'
-import  appwriteService from '../../appwrite/configuration'
+import appwriteService from '../../appwrite/configuration'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
@@ -10,23 +10,23 @@ function PostForm({post}) {
             setValue,control,getValues} = useForm({
               defaultValues:{
                 title: post?.title || '',
-                slug : post?.slug || '',
+                slug : post?.$id || '',
                 content : post?.content || '',
                 status : post?.status || 'active',
               },  
-            })
+        });
 
     const navigate = useNavigate()
-    const userData = useSelector(state => state.user
-    .userData) 
+    const userData = useSelector(state => state.auth
+        .userData) 
     
     const submit = async (data) => {
         if(post){
-            const file = data.image[0] ? appwriteService
-            .uploadFile(data.image[0]) : null
+            const file = data.image[0] ? await appwriteService
+            .uploadFile(data.image[0]) : null;
 
             if(file){
-                appwriteService.deleteFile(post.featuredImage)
+                appwriteService.deleteFile(post.featuredImage);
             }
 
             const dbPost = await appwriteService
@@ -41,7 +41,7 @@ function PostForm({post}) {
             }
         }else{
             const file = await appwriteService.uploadFile
-            (data.image[0])
+            (data.image[0]);
        // TODO add
             
             if(file){
@@ -50,9 +50,9 @@ function PostForm({post}) {
                 const dbPost = await appwriteService.createPost({
                     ...data,
                     userId : userData.$id
-                })
+                });
                 if(dbPost){
-                    navigate(`/post/${dbPost.$id}`)
+                    navigate(`/post/${dbPost.$id}`);
                 }
             }
         }
@@ -63,24 +63,21 @@ function PostForm({post}) {
             return value
             .trim()
             .toLowerCase()
-            .replace(/^[a-zA-Z\d\s]+/g,'-')
-            .replace(/\s/g,'-');
+            .replace(/^[a-zA-Z\d\s]+/g,"-")
+            .replace(/\s/g,"-");
         }
-        return '';
+        return "";
     },[])
 
     React.useEffect(() => {
-        const subscription = watch(({value,name}) => {
-            if(name === 'title'){
-                setValue('slug',slugTransform(value.title,
-                    {shouldValidate : true}))
+        const subscription = watch((value, { name }) => {
+            if (name === "title") {
+                setValue("slug", slugTransform(value.title), { shouldValidate: true });
             }
-        })
+        });
 
-        return () =>{
-            subscription.unsubscribe()
-        }
-    },[watch,slugTransform,setValue])
+        return () => subscription.unsubscribe();
+    }, [watch, slugTransform, setValue]);
 
   return (
     <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">

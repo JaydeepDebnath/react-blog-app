@@ -1,4 +1,4 @@
-import config from "../config/config";
+import config from "../config/config.js";
 import { Client , ID , Databases ,Storage , Query} from "appwrite";
 
 
@@ -76,7 +76,6 @@ export class Service{
                 config.appwriteCollectionId,
                 slug
             )
-            return true;
         } catch (error) {
             throw error;
             return false;

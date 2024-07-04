@@ -15,7 +15,7 @@ function EditPost() {
                 if(post){
                     setPosts(post)
                 }
-        })
+            })
         }else{
             navigate('/')
         }
