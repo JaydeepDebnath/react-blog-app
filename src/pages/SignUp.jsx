@@ -6,7 +6,7 @@ function Signup() {
     <div className='py-8'>
         <SignupComponents/>
     </div>
-  )
+  );
 }
 
 export default Signup
